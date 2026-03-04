@@ -1,14 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import type { IndustrialRobotAnimation } from "@/types/bot-animations.types";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type IndustrialRobotState = {
+  animation: IndustrialRobotAnimation;
+};
+
+const initialState: IndustrialRobotState = {
   animation: "idle",
 };
 
 const industrialRobotSlice = createSlice({
-  name: "industrialRobot",
+  name: "industrial-robot",
   initialState,
   reducers: {
-    setAnimation: (state, action) => {
+    setAnimation: (state: IndustrialRobotState, action: PayloadAction<IndustrialRobotAnimation>) => {
       state.animation = action.payload;
     },
   },
