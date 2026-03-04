@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import Button from "../button"
-import Icon from "../icon/icon"
+import Button from "../ui/button"
+import Icon from "../ui/icon/icon"
 import { setIsOpen } from "@/store/features/interface";
 
 const Header = () => {
