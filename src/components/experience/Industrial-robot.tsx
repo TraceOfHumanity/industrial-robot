@@ -4,10 +4,12 @@ Command: npx gltfjsx@6.5.3 industrial-robot.glb -t
 */
 
 import * as THREE from 'three'
-import React from 'react'
+import React, { useEffect, type JSX } from 'react'
 import { useGraph } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
-import { GLTF, SkeletonUtils } from 'three-stdlib'
+import { type GLTF, SkeletonUtils } from 'three-stdlib'
+import { useAppSelector } from '@/store/hooks'
+
 
 type ActionName = 'draw-line'
 
@@ -41,11 +43,20 @@ type GLTFResult = GLTF & {
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const group = React.useRef<THREE.Group>()
-  const { scene, animations } = useGLTF('/industrial-robot.glb')
+  const group = React.useRef<THREE.Group>(new THREE.Group())
+  const { scene, animations } = useGLTF('/assets/industrial-robot.glb')
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
-  const { nodes, materials } = useGraph(clone) as GLTFResult
+  const { nodes } = useGraph(clone) as unknown as GLTFResult
   const { actions } = useAnimations(animations, group)
+  const { animation } = useAppSelector((state) => state.industrialRobot)
+
+  useEffect(() => {
+    actions[animation]?.play();
+
+    return () => {
+      actions[animation]?.stop();
+    }
+  }, [actions, animation]);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
@@ -57,4 +68,4 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/industrial-robot.glb')
+useGLTF.preload('/assets/industrial-robot.glb')

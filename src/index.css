@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+body,
+html,
+#root {
+  width: 100vw;
+  height: 100vh;
+}
 
-body, html, #root {
-    width: 100vw;
-    height: 100vh;
+* {
+  user-select: none;
+}
+body {
+  background: linear-gradient(to bottom, #a6a6a6, #3b4147);
+  color: #000;
 }

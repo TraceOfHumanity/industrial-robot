@@ -6,7 +6,7 @@ type IndustrialRobotState = {
 };
 
 const initialState: IndustrialRobotState = {
-  animation: "idle",
+  animation: "draw-line",
 };
 
 const industrialRobotSlice = createSlice({
