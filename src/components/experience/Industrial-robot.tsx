@@ -48,7 +48,7 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes } = useGraph(clone) as unknown as GLTFResult
   const { actions } = useAnimations(animations, group)
-  const { animation } = useAppSelector((state) => state.industrialRobot)
+  const { animation } = useAppSelector((state) => state.industrialRobotSlice)
 
   useEffect(() => {
     actions[animation]?.play();

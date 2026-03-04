@@ -1,9 +1,9 @@
-import Experience from "./components/experience/experience";
+// import Experience from "./components/experience/experience";
 import Interface from "./components/interface/interface";
 
 function App() {
   return <>
-    <Experience />
+    {/* <Experience /> */}
     <Interface />
   </>;
 }

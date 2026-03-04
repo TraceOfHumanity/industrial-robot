@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import industrialRobotReducer from "./features/industrial-robot";
+import industrialRobotSlice from "./features/industrial-robot";
+import interfaceSlice from "./features/interface";
 
 export const store = configureStore({
   reducer: {
-    industrialRobot: industrialRobotReducer,
+    industrialRobotSlice,
+    interfaceSlice,
   },
 });
 

@@ -1,12 +1,13 @@
-import CardWrapper from "../card-wrapper"
+import InterfaceWrapper from "@/components/interface/interface-wrapper"
+import Header from "./header"
+import RobotActions from "./robot-actions"
 
 const Interface = () => {
     return (
-        <div className="fixed top-0 left-0 w-full h-full">
-            <CardWrapper className="w-1/4 h-[calc(100vh-1rem)] absolute top-2 right-2">
-                123
-            </CardWrapper>
-        </div>
+        <InterfaceWrapper>
+            <Header />
+            <RobotActions />
+        </InterfaceWrapper>
     )
 }
 
