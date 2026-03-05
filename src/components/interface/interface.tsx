@@ -1,14 +1,14 @@
 import InterfaceWrapper from "@/components/interface/interface-wrapper"
 import Header from "./header"
 import RobotActions from "./robot-actions"
-import EndEffector from "./end-effector"
+import EndEffectors from "./end-effectors"
 import BotColor from "./bot-color"
 
 const Interface = () => {
     return (
         <InterfaceWrapper>
             <Header />
-            <EndEffector />
+            <EndEffectors />
             <RobotActions />
             <BotColor />
         </InterfaceWrapper>

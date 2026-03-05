@@ -9,18 +9,11 @@ const Experience = () => {
             shadows
             eventSource={document.getElementById("root") as HTMLElement}
             eventPrefix="client"
-            // camera={{ position: [12, 6, 15], fov: 50 }}
+            camera={{ position: [5, 2, 5], fov: 50 }}
         >
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} />
-            {/* <mesh
-                position={[0, 0, 0]}
-                rotation={[0, 0, 0]}
-                scale={[1, 1, 1]}
-            >
-                <boxGeometry />
-                <meshStandardMaterial color="red" />
-            </mesh> */}
+            <ambientLight intensity={1} />
+            <pointLight position={[10, 10, 10]} intensity={100} />
+            <pointLight position={[-10, -10, -10]} intensity={100} />
             <Model />
             <OrbitControls />
             <gridHelper args={[10, 10]} />
