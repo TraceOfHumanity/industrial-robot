@@ -8,11 +8,11 @@ import {
 } from "@/types/robot-animation.types";
 import Button from "../ui/button";
 import { cn } from "@/utils/cn";
-import { setAnimation } from "@/store/features/industrial-robot";
+import { setRobotAnimation } from "@/store/features/industrial-robot";
 
 const RobotActions = () => {
   const dispatch = useAppDispatch();
-  const { selectedAnimation, endEffector } = useAppSelector(
+  const { robotAnimation, endEffector } = useAppSelector(
     (state) => state.industrialRobotSlice,
   );
   const animations = {
@@ -30,8 +30,8 @@ const RobotActions = () => {
           <Button
             key={animation}
             variant="ghost"
-            className={cn(selectedAnimation === animation ? "bg-white/20" : "")}
-            onClick={() => dispatch(setAnimation(animation))}
+            className={cn(robotAnimation === animation ? "bg-white/20" : "")}
+            onClick={() => dispatch(setRobotAnimation(animation))}
           >
             {animation}
           </Button>

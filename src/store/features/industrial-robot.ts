@@ -6,28 +6,31 @@ import type { RobotColor } from "@/types/robot-color.types";
 
 type IndustrialRobotState = {
   endEffector: EndEffector;
-  selectedAnimation: IndustrialRobotAnimation;
-  selectedColor: RobotColor;
+  robotAnimation: IndustrialRobotAnimation;
+  robotColor: RobotColor;
 };
 const initialState: IndustrialRobotState = {
   endEffector: "welding-torch",
-  selectedAnimation: "linear-seam",
-  selectedColor: "white",
+  robotAnimation: "linear-seam",
+  robotColor: "white",
 };
 
 const industrialRobotSlice = createSlice({
   name: "industrial-robot",
   initialState,
   reducers: {
-    setAnimation: (state: IndustrialRobotState, action: PayloadAction<IndustrialRobotAnimation>) => {
-      state.selectedAnimation = action.payload as IndustrialRobotState["selectedAnimation"];
+    setRobotAnimation: (state: IndustrialRobotState, action: PayloadAction<IndustrialRobotAnimation>) => {
+      state.robotAnimation = action.payload as IndustrialRobotState["robotAnimation"];
     },
     setEndEffector: (state: IndustrialRobotState, action: PayloadAction<EndEffector>) => {
       state.endEffector = action.payload;
-      state.selectedAnimation = DEFAULT_ANIMATION_BY_END_EFFECTOR[action.payload];
+      state.robotAnimation = DEFAULT_ANIMATION_BY_END_EFFECTOR[action.payload];
+    },
+    setRobotColor: (state: IndustrialRobotState, action: PayloadAction<RobotColor>) => {
+      state.robotColor = action.payload;
     },
   },
 });
 
-export const { setAnimation, setEndEffector } = industrialRobotSlice.actions;
+export const { setRobotAnimation, setEndEffector, setRobotColor } = industrialRobotSlice.actions;
 export default industrialRobotSlice.reducer;
