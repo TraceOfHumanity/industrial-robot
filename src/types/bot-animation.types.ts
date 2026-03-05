@@ -36,3 +36,19 @@ export type VacuumGripperAnimation = (typeof VACUUM_GRIPPER_ANIMATIONS)[number];
 export type SpindleAnimation = (typeof SPINDLE_ANIMATIONS)[number];
 
 export type IndustrialRobotAnimation = WeldAnimation | SprayAnimation | MechanicalGripperAnimation | VacuumGripperAnimation | SpindleAnimation;
+
+export type AnimationByEndEffector = {
+    "welding-torch": WeldAnimation;
+    "spray-gun": SprayAnimation;
+    "two-finger-gripper": MechanicalGripperAnimation;
+    "vacuum-gripper": VacuumGripperAnimation;
+    spindle: SpindleAnimation;
+};
+
+export const DEFAULT_ANIMATION_BY_END_EFFECTOR: AnimationByEndEffector = {
+    "welding-torch": "linear-seam",
+    "spray-gun": "horizontal-sweep",
+    "two-finger-gripper": "stack-items-on-pallet",
+    "vacuum-gripper": "move-glass-panel",
+    spindle: "drill-plunge",
+};
