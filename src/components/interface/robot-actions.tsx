@@ -5,7 +5,7 @@ import {
   MECHANICAL_GRIPPER_ANIMATIONS,
   VACUUM_GRIPPER_ANIMATIONS,
   SPINDLE_ANIMATIONS,
-} from "@/types/bot-animation.types";
+} from "@/types/robot-animation.types";
 import Button from "../ui/button";
 import { cn } from "@/utils/cn";
 import { setAnimation } from "@/store/features/industrial-robot";
