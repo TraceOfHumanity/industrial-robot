@@ -8,7 +8,7 @@ type IndustrialRobotState = {
 };
 
 const initialState: IndustrialRobotState = {
-  animation: "draw-line",
+  animation: "linear-seam",
   endEffector: "welding-torch",
 };
 
