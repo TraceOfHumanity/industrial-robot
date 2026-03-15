@@ -9,6 +9,7 @@ import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { SkeletonUtils } from "three-stdlib";
+import Manipulator from "./industrial-robot-manipulator";
 
 type ActionName =
   | "bore-enlarge"
@@ -89,7 +90,9 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Armature">
-          <primitive object={nodes.Bone} />
+          {/* <primitive object={nodes.Bone} /> */}
+          <Manipulator />
+          {/* <EndEffectors /> */}
         </group>
         <group name="pallet" position={[0, 0, 1.5]} scale={[0.6, 0.1, 0.4]}>
           <mesh
