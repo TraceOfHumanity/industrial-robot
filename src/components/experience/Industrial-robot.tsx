@@ -48,15 +48,15 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes } = useGraph(clone) as unknown as GLTFResult
   const { actions } = useAnimations(animations, group)
-  const { animation } = useAppSelector((state) => state.industrialRobotSlice)
+  const { robotAnimation } = useAppSelector((state) => state.industrialRobotSlice)
 
   useEffect(() => {
-    actions[animation]?.play();
+    actions[robotAnimation]?.play();
 
     return () => {
-      actions[animation]?.stop();
+      actions[robotAnimation]?.stop();
     }
-  }, [actions, animation]);
+  }, [actions, robotAnimation]);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
