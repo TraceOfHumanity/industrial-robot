@@ -1,7 +1,7 @@
 import type { IndustrialRobot } from "@/types/industrial-robot";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type RefObject } from "react";
 import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial } from "three";
 import { SkeletonUtils, type GLTF } from "three-stdlib";
 
@@ -73,17 +73,18 @@ type GLTFResult = GLTF & {
 }
 
 const useIndustrialRobot = (): IndustrialRobot => {
-    const group = useRef<Group>(null);
+    const groupRef = useRef<Group | null>(null);
     const { scene, animations } = useGLTF("/assets/industrial-robot.glb");
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
     const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
-    const { actions } = useAnimations(animations, group);
+    const { actions } = useAnimations(animations, groupRef);
 
     return {
         nodes: nodes as unknown as Record<string, Mesh>,
         materials,
         actions: actions as Record<string, AnimationAction>,
-    }
+        groupRef: groupRef as RefObject<Group>,
+    };
 };
 
 export default useIndustrialRobot;
