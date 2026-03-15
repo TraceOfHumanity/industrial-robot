@@ -1,8 +1,11 @@
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
+import { useAppSelector } from "@/store/hooks/use-app-selector";
+import type { EndEffector } from "@/types/end-effector.types";
+import type { JSX } from "react";
 import type { Object3D } from "three";
 import * as THREE from "three";
 
-const MANIPULATOR_NODE_NAMES = new Set([
+const BASE_MANIPULATOR_NODE_NAMES = new Set([
   "ROOT_BONE",
   "ROOT_LEVEL",
   "BONE_LEVEL_1",
@@ -13,6 +16,7 @@ const MANIPULATOR_NODE_NAMES = new Set([
   "LEVEL_3",
   "LEVEL_4",
   "LEVEL_5",
+  "END_EFFECTOR",
   "IK_BONE",
   "Bone007",
   "Bone008",
@@ -36,6 +40,20 @@ const MANIPULATOR_NODE_NAMES = new Set([
   "Mesh_4",
   "Mesh_5",
 ]);
+
+const END_EFFECTOR_GLTF_NODES: Record<EndEffector, string[]> = {
+  spindle: ["DRILL", "DRILL_TOP"],
+  "welding-torch": ["welding-torch", "WELDING_TORCH"],
+  "two-finger-gripper": [
+    "TWO_FINGER_GRIPPER_2",
+    "gripperL",
+    "gripperR",
+    "GRIPPERL",
+    "GRIPPERR",
+  ],
+  "vacuum-gripper": ["vacuum-gripper", "VACUUM_GRIPPER"],
+  "spray-gun": ["SPRAY_GUN"],
+};
 
 const isMesh = (obj: Object3D): obj is THREE.Mesh =>
   obj.type === "Mesh" && "geometry" in obj && "material" in obj;
@@ -78,20 +96,23 @@ const ManipulatorNode = ({
   );
 };
 
-const Manipulator = () => {
+const Manipulator = (): JSX.Element | null => {
   const { nodes } = useIndustrialRobotContext();
+  const endEffector = useAppSelector((s) => s.industrialRobotSlice.endEffector);
+  const allowedNames = new Set([
+    ...BASE_MANIPULATOR_NODE_NAMES,
+    ...(END_EFFECTOR_GLTF_NODES[endEffector] ?? []),
+  ]);
   const root = nodes["ROOT_BONE"];
   if (!root || !("children" in root)) return null;
-  const allowedChildren = root.children.filter((c) =>
-    MANIPULATOR_NODE_NAMES.has(c.name),
-  );
+  const allowedChildren = root.children.filter((c) => allowedNames.has(c.name));
   return (
     <group name="manipulator">
       {allowedChildren.map((child) => (
         <ManipulatorNode
           key={child.uuid}
           node={child}
-          allowedNames={MANIPULATOR_NODE_NAMES}
+          allowedNames={allowedNames}
         />
       ))}
     </group>
