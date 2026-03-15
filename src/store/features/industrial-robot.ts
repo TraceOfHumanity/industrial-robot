@@ -10,7 +10,7 @@ type IndustrialRobotState = {
   robotColor: RobotColor;
 };
 const initialState: IndustrialRobotState = {
-  endEffector: "welding-torch",
+  endEffector: "two-finger-gripper",
   robotAnimation: "linear-seam",
   robotColor: "white",
 };

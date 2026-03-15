@@ -4,11 +4,10 @@ Command: npx gltfjsx@6.5.3 industrial-robot.glb -t
 */
 
 import * as THREE from "three";
-import React, { useRef, type JSX } from "react";
+import React from "react";
 import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
-import type { GLTF } from "three-stdlib";
-import { SkeletonUtils } from "three-stdlib";
+import { GLTF, SkeletonUtils } from "three-stdlib";
 
 type ActionName =
   | "bore-enlarge"
@@ -26,65 +25,63 @@ interface GLTFAction extends THREE.AnimationClip {
 
 type GLTFResult = GLTF & {
   nodes: {
-    ['welding-torch_1']: THREE.Mesh
-    Mesh_5: THREE.Mesh
-    Mesh_6: THREE.Mesh
-    drill: THREE.Mesh
-    Cube005: THREE.Mesh
-    Cube005_1: THREE.Mesh
-    Cube008: THREE.Mesh
-    Cube008_1: THREE.Mesh
-    ['two-finger-gripper-2']: THREE.Mesh
-    Mesh_2: THREE.Mesh
-    Mesh_3: THREE.Mesh
-    Mesh_4: THREE.Mesh
-    Cylinder045: THREE.Mesh
-    Cylinder045_1: THREE.Mesh
-    ['drill-top']: THREE.Mesh
-    Cylinder058: THREE.Mesh
-    Cylinder058_1: THREE.Mesh
-    Cylinder036: THREE.Mesh
-    Cylinder036_1: THREE.Mesh
-    Cylinder011: THREE.Mesh
-    Cylinder011_1: THREE.Mesh
-    Cylinder002: THREE.Mesh
-    Cylinder002_1: THREE.Mesh
-    Cylinder_1: THREE.Mesh
-    Cylinder_2: THREE.Mesh
-    Object_0: THREE.Mesh
-    Object_0_1: THREE.Mesh
-    Cube014: THREE.Mesh
-    Cube014_1: THREE.Mesh
-    Cube004: THREE.Mesh
-    Cube004_1: THREE.Mesh
-    Cube006: THREE.Mesh
-    Cube006_1: THREE.Mesh
-    Cube009: THREE.Mesh
-    Cube009_1: THREE.Mesh
-    ['glass-1']: THREE.Mesh
-    ['glass-2']: THREE.Mesh
-    Bone: THREE.Bone
-  }
+    ["welding-torch_1"]: THREE.Mesh;
+    Mesh_5: THREE.Mesh;
+    Mesh_6: THREE.Mesh;
+    drill: THREE.Mesh;
+    Cube005: THREE.Mesh;
+    Cube005_1: THREE.Mesh;
+    Cube008: THREE.Mesh;
+    Cube008_1: THREE.Mesh;
+    ["two-finger-gripper-2"]: THREE.Mesh;
+    Mesh_2: THREE.Mesh;
+    Mesh_3: THREE.Mesh;
+    Mesh_4: THREE.Mesh;
+    Cylinder045: THREE.Mesh;
+    Cylinder045_1: THREE.Mesh;
+    ["drill-top"]: THREE.Mesh;
+    Cylinder058: THREE.Mesh;
+    Cylinder058_1: THREE.Mesh;
+    Cylinder036: THREE.Mesh;
+    Cylinder036_1: THREE.Mesh;
+    Cylinder011: THREE.Mesh;
+    Cylinder011_1: THREE.Mesh;
+    Cylinder002: THREE.Mesh;
+    Cylinder002_1: THREE.Mesh;
+    Cylinder_1: THREE.Mesh;
+    Cylinder_2: THREE.Mesh;
+    Object_0: THREE.Mesh;
+    Object_0_1: THREE.Mesh;
+    Cube014: THREE.Mesh;
+    Cube014_1: THREE.Mesh;
+    Cube004: THREE.Mesh;
+    Cube004_1: THREE.Mesh;
+    Cube006: THREE.Mesh;
+    Cube006_1: THREE.Mesh;
+    Cube009: THREE.Mesh;
+    Cube009_1: THREE.Mesh;
+    ["glass-1"]: THREE.Mesh;
+    ["glass-2"]: THREE.Mesh;
+    Bone: THREE.Bone;
+  };
   materials: {
-    metall: THREE.MeshStandardMaterial
-    white: THREE.MeshStandardMaterial
-    rubber: THREE.MeshStandardMaterial
-    wood: THREE.MeshStandardMaterial
-    incision: THREE.MeshStandardMaterial
-    box: THREE.MeshStandardMaterial
-    scotch: THREE.MeshStandardMaterial
-  }
-  animations: GLTFAction[]
-}
+    metall: THREE.MeshStandardMaterial;
+    white: THREE.MeshStandardMaterial;
+    rubber: THREE.MeshStandardMaterial;
+    wood: THREE.MeshStandardMaterial;
+    incision: THREE.MeshStandardMaterial;
+    box: THREE.MeshStandardMaterial;
+    scotch: THREE.MeshStandardMaterial;
+  };
+  animations: GLTFAction[];
+};
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
-  const group = useRef<THREE.Group>(null);
-  const { scene, animations } = useGLTF("/assets/industrial-robot.glb");
+  const group = React.useRef<THREE.Group>();
+  const { scene, animations } = useGLTF("/industrial-robot.glb");
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
+  const { nodes, materials } = useGraph(clone) as GLTFResult;
   const { actions } = useAnimations(animations, group);
-  console.log("actions", actions);
-  console.log("nodes", nodes);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
@@ -174,4 +171,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/assets/industrial-robot.glb");
+useGLTF.preload("/industrial-robot.glb");
