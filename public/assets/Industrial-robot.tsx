@@ -3,172 +3,108 @@
 // Command: npx gltfjsx@6.5.3 industrial-robot.glb -t 
 // */
 
-// import * as THREE from "three";
-// import React from "react";
-// import { useGraph } from "@react-three/fiber";
-// import { useGLTF, useAnimations } from "@react-three/drei";
-// import { GLTF, SkeletonUtils } from "three-stdlib";
+// import * as THREE from 'three'
+// import React from 'react'
+// import { useGraph } from '@react-three/fiber'
+// import { useGLTF, useAnimations } from '@react-three/drei'
+// import { GLTF, SkeletonUtils } from 'three-stdlib'
 
-// type ActionName =
-//   | "bore-enlarge"
-//   | "circular-path"
-//   | "contour-cut"
-//   | "drill-plunge"
-//   | "linear-seam"
-//   | "move-glass-panel"
-//   | "spot-weld"
-//   | "stack-items-on-pallet";
+// type ActionName = 'bore-enlarge' | 'circular-path' | 'contour-cut' | 'drill-plunge' | 'linear-seam' | 'move-glass-panel' | 'spot-weld' | 'stack-items-on-pallet'
 
 // interface GLTFAction extends THREE.AnimationClip {
-//   name: ActionName;
+//   name: ActionName
 // }
 
 // type GLTFResult = GLTF & {
 //   nodes: {
-//     ["welding-torch_1"]: THREE.Mesh;
-//     Mesh_5: THREE.Mesh;
-//     Mesh_6: THREE.Mesh;
-//     drill: THREE.Mesh;
-//     Cube005: THREE.Mesh;
-//     Cube005_1: THREE.Mesh;
-//     Cube008: THREE.Mesh;
-//     Cube008_1: THREE.Mesh;
-//     ["two-finger-gripper-2"]: THREE.Mesh;
-//     Mesh_2: THREE.Mesh;
-//     Mesh_3: THREE.Mesh;
-//     Mesh_4: THREE.Mesh;
-//     Cylinder045: THREE.Mesh;
-//     Cylinder045_1: THREE.Mesh;
-//     ["drill-top"]: THREE.Mesh;
-//     Cylinder058: THREE.Mesh;
-//     Cylinder058_1: THREE.Mesh;
-//     Cylinder036: THREE.Mesh;
-//     Cylinder036_1: THREE.Mesh;
-//     Cylinder011: THREE.Mesh;
-//     Cylinder011_1: THREE.Mesh;
-//     Cylinder002: THREE.Mesh;
-//     Cylinder002_1: THREE.Mesh;
-//     Cylinder_1: THREE.Mesh;
-//     Cylinder_2: THREE.Mesh;
-//     Object_0: THREE.Mesh;
-//     Object_0_1: THREE.Mesh;
-//     Cube014: THREE.Mesh;
-//     Cube014_1: THREE.Mesh;
-//     Cube004: THREE.Mesh;
-//     Cube004_1: THREE.Mesh;
-//     Cube006: THREE.Mesh;
-//     Cube006_1: THREE.Mesh;
-//     Cube009: THREE.Mesh;
-//     Cube009_1: THREE.Mesh;
-//     ["glass-1"]: THREE.Mesh;
-//     ["glass-2"]: THREE.Mesh;
-//     Bone: THREE.Bone;
-//   };
+//     WELDING_TORCH: THREE.Mesh
+//     Mesh_5: THREE.Mesh
+//     Mesh_6: THREE.Mesh
+//     DRILL: THREE.Mesh
+//     Cube005: THREE.Mesh
+//     Cube005_1: THREE.Mesh
+//     Cube008: THREE.Mesh
+//     Cube008_1: THREE.Mesh
+//     TWO_FINGER_GRIPPER_2: THREE.Mesh
+//     Mesh_2: THREE.Mesh
+//     Mesh_3: THREE.Mesh
+//     Mesh_4: THREE.Mesh
+//     DRILL_TOP: THREE.Mesh
+//     Cylinder045: THREE.Mesh
+//     Cylinder045_1: THREE.Mesh
+//     Cylinder058: THREE.Mesh
+//     Cylinder058_1: THREE.Mesh
+//     Cylinder036: THREE.Mesh
+//     Cylinder036_1: THREE.Mesh
+//     Cylinder011: THREE.Mesh
+//     Cylinder011_1: THREE.Mesh
+//     Cylinder002: THREE.Mesh
+//     Cylinder002_1: THREE.Mesh
+//     Cylinder: THREE.Mesh
+//     Cylinder_1: THREE.Mesh
+//     Object_0: THREE.Mesh
+//     Object_0_1: THREE.Mesh
+//     Cube014: THREE.Mesh
+//     Cube014_1: THREE.Mesh
+//     Cube004: THREE.Mesh
+//     Cube004_1: THREE.Mesh
+//     Cube006: THREE.Mesh
+//     Cube006_1: THREE.Mesh
+//     Cube009: THREE.Mesh
+//     Cube009_1: THREE.Mesh
+//     GLASS_1: THREE.Mesh
+//     GLASS_2: THREE.Mesh
+//     ROOT_BONE: THREE.Bone
+//   }
 //   materials: {
-//     metall: THREE.MeshStandardMaterial;
-//     white: THREE.MeshStandardMaterial;
-//     rubber: THREE.MeshStandardMaterial;
-//     wood: THREE.MeshStandardMaterial;
-//     incision: THREE.MeshStandardMaterial;
-//     box: THREE.MeshStandardMaterial;
-//     scotch: THREE.MeshStandardMaterial;
-//   };
-//   animations: GLTFAction[];
-// };
+//     metall: THREE.MeshStandardMaterial
+//     white: THREE.MeshStandardMaterial
+//     rubber: THREE.MeshStandardMaterial
+//     wood: THREE.MeshStandardMaterial
+//     incision: THREE.MeshStandardMaterial
+//     box: THREE.MeshStandardMaterial
+//     scotch: THREE.MeshStandardMaterial
+//   }
+//   animations: GLTFAction[]
+// }
 
-// export function Model(props: JSX.IntrinsicElements["group"]) {
-//   const group = React.useRef<THREE.Group>();
-//   const { scene, animations } = useGLTF("/industrial-robot.glb");
-//   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
-//   const { nodes, materials } = useGraph(clone) as GLTFResult;
-//   const { actions } = useAnimations(animations, group);
+// export function Model(props: JSX.IntrinsicElements['group']) {
+//   const group = React.useRef<THREE.Group>()
+//   const { scene, animations } = useGLTF('/industrial-robot.glb')
+//   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene])
+//   const { nodes, materials } = useGraph(clone) as GLTFResult
+//   const { actions } = useAnimations(animations, group)
 //   return (
 //     <group ref={group} {...props} dispose={null}>
 //       <group name="Scene">
-//         <group name="Armature">
-//           <primitive object={nodes.Bone} />
+//         <group name="ARMATURE">
+//           <primitive object={nodes.ROOT_BONE} />
 //         </group>
-//         <group name="pallet" position={[0, 0, 1.5]} scale={[0.6, 0.1, 0.4]}>
-//           <mesh
-//             name="Object_0"
-//             geometry={nodes.Object_0.geometry}
-//             material={materials.wood}
-//           />
-//           <mesh
-//             name="Object_0_1"
-//             geometry={nodes.Object_0_1.geometry}
-//             material={materials.incision}
-//           />
+//         <group name="PALLET" position={[0, 0, 1.5]} scale={[0.6, 0.1, 0.4]}>
+//           <mesh name="Object_0" geometry={nodes.Object_0.geometry} material={materials.wood} />
+//           <mesh name="Object_0_1" geometry={nodes.Object_0_1.geometry} material={materials.incision} />
 //         </group>
-//         <group
-//           name="400×300×500"
-//           position={[0.925, 0.5, 0]}
-//           rotation={[-Math.PI, 0.01, -Math.PI]}
-//         >
-//           <mesh
-//             name="Cube014"
-//             geometry={nodes.Cube014.geometry}
-//             material={materials.box}
-//           />
-//           <mesh
-//             name="Cube014_1"
-//             geometry={nodes.Cube014_1.geometry}
-//             material={materials.scotch}
-//           />
+//         <group name="BOX_1" position={[0.925, 0.5, 0]} rotation={[-Math.PI, 0.01, -Math.PI]}>
+//           <mesh name="Cube014" geometry={nodes.Cube014.geometry} material={materials.box} />
+//           <mesh name="Cube014_1" geometry={nodes.Cube014_1.geometry} material={materials.scotch} />
 //         </group>
-//         <group name="400×300×500001" position={[0.925, 0.5, -0.45]}>
-//           <mesh
-//             name="Cube004"
-//             geometry={nodes.Cube004.geometry}
-//             material={materials.box}
-//           />
-//           <mesh
-//             name="Cube004_1"
-//             geometry={nodes.Cube004_1.geometry}
-//             material={materials.scotch}
-//           />
+//         <group name="BOX_2" position={[0.925, 0.5, -0.45]}>
+//           <mesh name="Cube004" geometry={nodes.Cube004.geometry} material={materials.box} />
+//           <mesh name="Cube004_1" geometry={nodes.Cube004_1.geometry} material={materials.scotch} />
 //         </group>
-//         <group name="400×300×500002" position={[0.925, 0.5, -0.9]}>
-//           <mesh
-//             name="Cube006"
-//             geometry={nodes.Cube006.geometry}
-//             material={materials.box}
-//           />
-//           <mesh
-//             name="Cube006_1"
-//             geometry={nodes.Cube006_1.geometry}
-//             material={materials.scotch}
-//           />
+//         <group name="BOX_3" position={[0.925, 0.5, -0.9]}>
+//           <mesh name="Cube006" geometry={nodes.Cube006.geometry} material={materials.box} />
+//           <mesh name="Cube006_1" geometry={nodes.Cube006_1.geometry} material={materials.scotch} />
 //         </group>
-//         <group name="400×300×500003" position={[0.925, 0.5, -1.35]}>
-//           <mesh
-//             name="Cube009"
-//             geometry={nodes.Cube009.geometry}
-//             material={materials.box}
-//           />
-//           <mesh
-//             name="Cube009_1"
-//             geometry={nodes.Cube009_1.geometry}
-//             material={materials.scotch}
-//           />
+//         <group name="BOX_4" position={[0.925, 0.5, -1.35]}>
+//           <mesh name="Cube009" geometry={nodes.Cube009.geometry} material={materials.box} />
+//           <mesh name="Cube009_1" geometry={nodes.Cube009_1.geometry} material={materials.scotch} />
 //         </group>
-//         <mesh
-//           name="glass-1"
-//           geometry={nodes["glass-1"].geometry}
-//           material={nodes["glass-1"].material}
-//           position={[0.925, 0.02, 0]}
-//           scale={[0.5, 0.01, 0.5]}
-//         />
-//         <mesh
-//           name="glass-2"
-//           geometry={nodes["glass-2"].geometry}
-//           material={nodes["glass-2"].material}
-//           position={[0.925, 0.02, -1.1]}
-//           scale={[0.5, 0.01, 0.5]}
-//         />
+//         <mesh name="GLASS_1" geometry={nodes.GLASS_1.geometry} material={nodes.GLASS_1.material} position={[0.925, 0.02, 0]} scale={[0.5, 0.01, 0.5]} />
+//         <mesh name="GLASS_2" geometry={nodes.GLASS_2.geometry} material={nodes.GLASS_2.material} position={[0.925, 0.02, -1.1]} scale={[0.5, 0.01, 0.5]} />
 //       </group>
 //     </group>
-//   );
+//   )
 // }
 
-// useGLTF.preload("/industrial-robot.glb");
+// useGLTF.preload('/industrial-robot.glb')
