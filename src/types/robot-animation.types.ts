@@ -23,9 +23,9 @@ export const VACUUM_GRIPPER_ANIMATIONS = [
 export const SPINDLE_ANIMATIONS = [
     "drill-plunge",     // Свердління (вхід по осі Z)
     // "face-milling",     // Торцеве фрезерування (площина)
-    "contour-cut",      // Вирізання по контуру
+    // "contour-cut",      // Вирізання по контуру
     // "pocketing",        // Вибірка "кишені" всередині металу
-    "bore-enlarge",     // Розточування отвору
+    // "bore-enlarge",     // Розточування отвору
 ] as const;
 
 

@@ -4,7 +4,7 @@ import type {
 } from "@/types/industrial-robot";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial } from "three";
 import { SkeletonUtils, type GLTF } from "three-stdlib";
 
@@ -51,6 +51,7 @@ type GLTFResult = GLTF & {
         GLASS_1: Mesh
         GLASS_2: Mesh
         ROOT_BONE: Bone
+        PALLET: Mesh
     }
     materials: {
         metall: MeshStandardMaterial
@@ -66,8 +67,6 @@ type GLTFResult = GLTF & {
 
 const useIndustrialRobot = (): IndustrialRobot => {
     const groupRef = useRef<Group | null>(null);
-    const [activeAnimation, setActiveAnimation] =
-        useState<IndustrialRobotAnimationName | null>(null);
     const { scene, animations } = useGLTF("/assets/industrial-robot.glb");
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
     const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
@@ -82,8 +81,6 @@ const useIndustrialRobot = (): IndustrialRobot => {
         materials,
         actions: actions as Record<string, AnimationAction>,
         groupRef: groupRef as RefObject<Group>,
-        activeAnimation,
-        setActiveAnimation,
     };
 };
 

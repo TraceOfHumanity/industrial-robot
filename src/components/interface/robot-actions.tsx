@@ -9,6 +9,7 @@ import {
 import Button from "../ui/button";
 import { cn } from "@/utils/cn";
 import { setRobotAnimation } from "@/store/features/industrial-robot";
+import { useEffect } from "react";
 
 const RobotActions = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,11 @@ const RobotActions = () => {
     "vacuum-gripper": VACUUM_GRIPPER_ANIMATIONS,
     spindle: SPINDLE_ANIMATIONS,
   };
+
+  useEffect(() => {
+    console.log("robotAnimation", robotAnimation);
+  }, [robotAnimation]);
+
   return (
     <div className="grow flex flex-col overflow-hidden">
       <h3 className="text-lg font-medium">Robot Actions</h3>
