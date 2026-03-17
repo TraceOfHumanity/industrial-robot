@@ -39,7 +39,6 @@ const BASE_MANIPULATOR_NODE_NAMES = new Set([
   "Mesh_3",
   "Mesh_4",
   "Mesh_5",
-
 ]);
 
 const END_EFFECTOR_NODE_NAMES: Record<EndEffector, string[]> = {
@@ -61,6 +60,13 @@ const END_EFFECTOR_NODE_NAMES: Record<EndEffector, string[]> = {
   ],
 };
 
+const GROUPS_WITH_UNNAMED_MESHES = new Set([
+  "GRIPPERL",
+  "GRIPPERR",
+  "VACUUM_GRIPPER",
+  "SPRAY_GUN",
+]);
+
 const isMesh = (obj: Object3D): obj is THREE.Mesh =>
   obj.type === "Mesh" && "geometry" in obj && "material" in obj;
 
@@ -80,13 +86,14 @@ const ManipulatorNode = ({
         position={node.position.clone()}
         rotation={node.rotation.clone()}
         scale={node.scale.clone()}
-        onClick={() => {
-          console.log("clicked", node.name);
-        }}
       />
     );
   }
-  const allowedChildren = node.children.filter((c) => allowedNames.has(c.name));
+  const includeAllMeshes =
+    node.type === "Group" && GROUPS_WITH_UNNAMED_MESHES.has(node.name);
+  const allowedChildren = node.children.filter(
+    (c) => allowedNames.has(c.name) || (includeAllMeshes && isMesh(c)),
+  );
   return (
     <group
       name={node.name}
