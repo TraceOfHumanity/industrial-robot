@@ -39,6 +39,7 @@ const BASE_MANIPULATOR_NODE_NAMES = new Set([
   "Mesh_3",
   "Mesh_4",
   "Mesh_5",
+
 ]);
 
 const END_EFFECTOR_NODE_NAMES: Record<EndEffector, string[]> = {
@@ -46,7 +47,7 @@ const END_EFFECTOR_NODE_NAMES: Record<EndEffector, string[]> = {
   WELDING_TORCH: ["WELDING_TORCH_ROTOR_BONE", "WELDING_TORCH"],
   TWO_FINGER_GRIPPER: [
     "TWO_FINGER_GRIPPER_ROTOR",
-    "TWO_FINGER_GRIPPER_2",
+    "TWO_FINGER_GRIPPER",
     "GRIPPER_BONEL",
     "GRIPPER_BONER",
     "GRIPPERL",
@@ -79,6 +80,9 @@ const ManipulatorNode = ({
         position={node.position.clone()}
         rotation={node.rotation.clone()}
         scale={node.scale.clone()}
+        onClick={() => {
+          console.log("clicked", node.name);
+        }}
       />
     );
   }
