@@ -38,17 +38,17 @@ export type SpindleAnimation = (typeof SPINDLE_ANIMATIONS)[number];
 export type IndustrialRobotAnimation = WeldAnimation | SprayAnimation | MechanicalGripperAnimation | VacuumGripperAnimation | SpindleAnimation;
 
 export type AnimationByEndEffector = {
-    "welding-torch": WeldAnimation;
-    "spray-gun": SprayAnimation;
-    "two-finger-gripper": MechanicalGripperAnimation;
-    "vacuum-gripper": VacuumGripperAnimation;
-    spindle: SpindleAnimation;
+    "WELDING_TORCH": WeldAnimation;
+    "SPRAY_GUN": SprayAnimation;
+    "TWO_FINGER_GRIPPER": MechanicalGripperAnimation;
+    "VACUUM_GRIPPER": VacuumGripperAnimation;
+    "SPINDLE": SpindleAnimation;
 };
 
 export const DEFAULT_ANIMATION_BY_END_EFFECTOR: AnimationByEndEffector = {
-    "welding-torch": "linear-seam",
-    "spray-gun": "spiral-coverage",
-    "two-finger-gripper": "stack-items-on-pallet",
-    "vacuum-gripper": "move-glass-panel",
-    spindle: "drill-plunge",
+    "WELDING_TORCH": "linear-seam",
+    "SPRAY_GUN": "spiral-coverage",
+    "TWO_FINGER_GRIPPER": "stack-items-on-pallet",
+    "VACUUM_GRIPPER": "move-glass-panel",
+    "SPINDLE": "drill-plunge",
 };

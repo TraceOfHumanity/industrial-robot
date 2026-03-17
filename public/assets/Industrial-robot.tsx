@@ -25,7 +25,7 @@ type GLTFResult = GLTF & {
     Cube005_1: THREE.Mesh
     Cube008: THREE.Mesh
     Cube008_1: THREE.Mesh
-    TWO_FINGER_GRIPPER_2: THREE.Mesh
+    TWO_FINGER_GRIPPER: THREE.Mesh
     Plane: THREE.Mesh
     Plane_1: THREE.Mesh
     Plane_2: THREE.Mesh

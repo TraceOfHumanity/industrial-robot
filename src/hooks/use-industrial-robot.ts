@@ -21,7 +21,7 @@ type GLTFResult = GLTF & {
         Cube005_1: Mesh
         Cube008: Mesh
         Cube008_1: Mesh
-        TWO_FINGER_GRIPPER_2: Mesh
+        TWO_FINGER_GRIPPER: Mesh
         Mesh_2: Mesh
         Mesh_3: Mesh
         Mesh_4: Mesh

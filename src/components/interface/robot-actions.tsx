@@ -17,11 +17,11 @@ const RobotActions = () => {
     (state) => state.industrialRobotSlice,
   );
   const animations = {
-    "welding-torch": WELDING_TORCH_ANIMATIONS,
-    "spray-gun": SPRAY_GUN_ANIMATIONS,
-    "two-finger-gripper": MECHANICAL_GRIPPER_ANIMATIONS,
-    "vacuum-gripper": VACUUM_GRIPPER_ANIMATIONS,
-    spindle: SPINDLE_ANIMATIONS,
+    "WELDING_TORCH": WELDING_TORCH_ANIMATIONS,
+    "SPRAY_GUN": SPRAY_GUN_ANIMATIONS,
+    "TWO_FINGER_GRIPPER": MECHANICAL_GRIPPER_ANIMATIONS,
+    "VACUUM_GRIPPER": VACUUM_GRIPPER_ANIMATIONS,
+    "SPINDLE": SPINDLE_ANIMATIONS,
   };
 
   useEffect(() => {

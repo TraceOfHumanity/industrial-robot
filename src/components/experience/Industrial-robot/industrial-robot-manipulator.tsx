@@ -1,5 +1,5 @@
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
-import { useAppSelector } from "@/store/hooks/use-app-selector";
+import { useAppSelector } from "@/store/hooks";
 import type { EndEffector } from "@/types/end-effector.types";
 import type { JSX } from "react";
 import type { Object3D } from "three";
@@ -16,7 +16,7 @@ const BASE_MANIPULATOR_NODE_NAMES = new Set([
   "LEVEL_3",
   "LEVEL_4",
   "LEVEL_5",
-  "END_EFFECTOR",
+  "END_EFFECTOR_BONE",
   "IK_BONE",
   "Bone007",
   "Bone008",
@@ -41,18 +41,23 @@ const BASE_MANIPULATOR_NODE_NAMES = new Set([
   "Mesh_5",
 ]);
 
-const END_EFFECTOR_GLTF_NODES: Record<EndEffector, string[]> = {
-  spindle: ["DRILL", "DRILL_TOP"],
-  "welding-torch": ["welding-torch", "WELDING_TORCH"],
-  "two-finger-gripper": [
+const END_EFFECTOR_NODE_NAMES: Record<EndEffector, string[]> = {
+  SPINDLE: ["DRILL_ROTOR_BONE", "DRILL", "DRILL_TOP"],
+  WELDING_TORCH: ["WELDING_TORCH_ROTOR_BONE", "WELDING_TORCH"],
+  TWO_FINGER_GRIPPER: [
+    "TWO_FINGER_GRIPPER_ROTOR",
     "TWO_FINGER_GRIPPER_2",
-    "gripperL",
-    "gripperR",
+    "GRIPPER_BONEL",
+    "GRIPPER_BONER",
     "GRIPPERL",
     "GRIPPERR",
   ],
-  "vacuum-gripper": ["vacuum-gripper", "VACUUM_GRIPPER"],
-  "spray-gun": ["SPRAY_GUN"],
+  VACUUM_GRIPPER: ["VACUUM_GRIPPER_ROTOR_BONE", "VACUUM_GRIPPER"],
+  SPRAY_GUN: [
+    "SPRAY_GUN_FOLLOW_BONE",
+    "SPRAY_GUN_ROTOR_BONE",
+    "SPRAY_GUN",
+  ],
 };
 
 const isMesh = (obj: Object3D): obj is THREE.Mesh =>
@@ -98,10 +103,10 @@ const ManipulatorNode = ({
 
 const Manipulator = (): JSX.Element | null => {
   const { nodes } = useIndustrialRobotContext();
-  const endEffector = useAppSelector((s) => s.industrialRobotSlice.endEffector);
+  const { endEffector } = useAppSelector((state) => state.industrialRobotSlice);
   const allowedNames = new Set([
     ...BASE_MANIPULATOR_NODE_NAMES,
-    ...(END_EFFECTOR_GLTF_NODES[endEffector] ?? []),
+    ...(END_EFFECTOR_NODE_NAMES[endEffector] ?? []),
   ]);
   const root = nodes["ROOT_BONE"];
   if (!root || !("children" in root)) return null;
