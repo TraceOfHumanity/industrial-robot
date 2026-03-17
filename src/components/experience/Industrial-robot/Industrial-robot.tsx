@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+import { useEffect, type JSX } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import EndEffectors from "./industrial-robot-end-effectors";
@@ -6,7 +6,7 @@ import Manipulator from "./industrial-robot-manipulator";
 import { useAppSelector } from "@/store/hooks";
 
 export function IndustrialRobot(props: JSX.IntrinsicElements["group"]) {
-  const { groupRef, nodes } = useIndustrialRobotContext();
+  const { groupRef, nodes, actions } = useIndustrialRobotContext();
   const { robotAnimation } = useAppSelector(
     (state) => state.industrialRobotSlice,
   );
@@ -15,6 +15,16 @@ export function IndustrialRobot(props: JSX.IntrinsicElements["group"]) {
   const isShowManhole = robotAnimation === "circular-path";
   const isShowSteelBeam =
     robotAnimation === "linear-seam" || robotAnimation === "spot-weld";
+
+  useEffect(() => {
+    Object.values(actions).forEach((action) => {
+      action.stop();
+    });
+    const next = actions[robotAnimation];
+    if (next) {
+      next.reset().play();
+    }
+  }, [robotAnimation, actions]);
 
   return (
     <group ref={groupRef} {...props} dispose={null}>

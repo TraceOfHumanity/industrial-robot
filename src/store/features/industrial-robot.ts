@@ -11,7 +11,7 @@ type IndustrialRobotState = {
 };
 const initialState: IndustrialRobotState = {
   endEffector: "TWO_FINGER_GRIPPER",
-  robotAnimation: "linear-seam",
+  robotAnimation: "stack-items-on-pallet",
   robotColor: "white",
 };
 
