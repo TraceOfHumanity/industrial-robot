@@ -1,158 +1,61 @@
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
-import type { EndEffector } from "@/types/end-effector.types";
 import type { JSX } from "react";
-import type { Object3D } from "three";
-import * as THREE from "three";
+import { useLayoutEffect } from "react";
 
-const BASE_MANIPULATOR_NODE_NAMES = new Set([
-  "ROOT_BONE",
-  "ROOT_LEVEL",
-  "BONE_LEVEL_1",
-  "BONE_LEVEL_2",
-  "BONE_LEVEL_3",
-  "LEVEL_1",
-  "LEVEL_2",
-  "LEVEL_3",
-  "LEVEL_4",
-  "LEVEL_5",
-  "END_EFFECTOR_BONE",
-  "IK_BONE",
-  "Bone007",
-  "Bone008",
-  "Bone009",
-  "Bone010",
-  "Cylinder",
-  "Cylinder_1",
-  "Cylinder002",
-  "Cylinder002_1",
-  "Cylinder011",
-  "Cylinder011_1",
-  "Cylinder036",
-  "Cylinder036_1",
-  "Cylinder045",
-  "Cylinder045_1",
-  "Cylinder058",
-  "Cylinder058_1",
-  "Mesh_1",
-  "Mesh_2",
-  "Mesh_3",
-  "Mesh_4",
-  "Mesh_5",
-]);
-
-const END_EFFECTOR_SKELETON_NODE_NAMES: Record<EndEffector, string[]> = {
-  SPINDLE: ["DRILL_ROTOR_BONE"],
-  WELDING_TORCH: ["WELDING_TORCH_ROTOR_BONE"],
-  TWO_FINGER_GRIPPER: [
-    "TWO_FINGER_GRIPPER_ROTOR",
-    "GRIPPER_BONEL",
-    "GRIPPER_BONER",
-    "GRIPPERL",
-    "GRIPPERR",
-  ],
-  VACUUM_GRIPPER: ["VACUUM_GRIPPER_ROTOR_BONE"],
-  SPRAY_GUN: ["SPRAY_GUN_FOLLOW_BONE", "SPRAY_GUN_ROTOR_BONE"],
-};
-
-const END_EFFECTOR_GEOMETRY_NODE_NAMES: Record<EndEffector, string[]> = {
-  SPINDLE: ["DRILL", "DRILL_TOP"],
-  WELDING_TORCH: ["WELDING_TORCH"],
-  TWO_FINGER_GRIPPER: [
-    "TWO_FINGER_GRIPPER",
-    "GRIPPERL",
-    "GRIPPERR",
-    "Cube005",
-    "Cube005_1",
-    "Cube008",
-    "Cube008_1",
-  ],
-  VACUUM_GRIPPER: ["VACUUM_GRIPPER"],
-  SPRAY_GUN: ["SPRAY_GUN"],
-};
-
-const isMesh = (obj: Object3D): obj is THREE.Mesh =>
-  obj.type === "Mesh" && "geometry" in obj && "material" in obj;
-
-const ManipulatorNode = ({
-  node,
-  skeletonNames,
-  geometryNames,
-}: {
-  node: Object3D;
-  skeletonNames: Set<string>;
-  geometryNames: Set<string>;
-}) => {
-  if (isMesh(node)) {
-    if (
-      !geometryNames.has(node.name) &&
-      !BASE_MANIPULATOR_NODE_NAMES.has(node.name)
-    ) {
-      return null;
-    }
-    return (
-      <mesh
-        name={node.name}
-        geometry={node.geometry}
-        material={node.material}
-        position={node.position.clone()}
-        rotation={node.rotation.clone()}
-        scale={node.scale.clone()}
-      />
-    );
-  }
-  const includeAllChildMeshes =
-    geometryNames.has(node.name) && node.type === "Group";
-  const allowedChildren = node.children.filter(
-    (c) =>
-      skeletonNames.has(c.name) ||
-      geometryNames.has(c.name) ||
-      (includeAllChildMeshes && isMesh(c)),
-  );
-  return (
-    <group
-      name={node.name}
-      position={node.position.clone()}
-      rotation={node.rotation.clone()}
-      scale={node.scale.clone()}
-    >
-      {allowedChildren.map((child) => (
-        <ManipulatorNode
-          key={child.uuid}
-          node={child}
-          skeletonNames={skeletonNames}
-          geometryNames={geometryNames}
-        />
-      ))}
-    </group>
-  );
-};
-
-const Manipulator = (): JSX.Element | null => {
+const Manipulator = (
+  props: JSX.IntrinsicElements["group"],
+): JSX.Element | null => {
   const { nodes } = useIndustrialRobotContext();
   const { endEffector } = useAppSelector((state) => state.industrialRobotSlice);
-  const skeletonNames = new Set([
-    ...BASE_MANIPULATOR_NODE_NAMES,
-    ...(END_EFFECTOR_SKELETON_NODE_NAMES[endEffector] ?? []),
-  ]);
-  const geometryNames = new Set(END_EFFECTOR_GEOMETRY_NODE_NAMES[endEffector]);
-  const root = nodes["ROOT_BONE"];
-  if (!root || !("children" in root)) return null;
-  const allowedChildren = root.children.filter(
-    (c) => skeletonNames.has(c.name) || geometryNames.has(c.name),
-  );
-  return (
-    <group name="manipulator">
-      {allowedChildren.map((child) => (
-        <ManipulatorNode
-          key={child.uuid}
-          node={child}
-          skeletonNames={skeletonNames}
-          geometryNames={geometryNames}
-        />
-      ))}
-    </group>
-  );
+
+  
+  useLayoutEffect(() => {
+    const all = [
+      "DRILL",
+      "DRILL_TOP",
+      "WELDING_TORCH",
+      "TWO_FINGER_GRIPPER",
+      "GRIPPERL",
+      "GRIPPERR",
+      "VACUUM_GRIPPER",
+      "SPRAY_GUN",
+    ] as const;
+    
+    if (!nodes.ROOT_BONE) {
+      return null;
+    }
+    all.forEach((name) => {
+      if (nodes[name]) {
+        nodes[name]!.visible = false;
+      }
+    });
+
+    if (endEffector === "SPINDLE") {
+      if (nodes.DRILL) nodes.DRILL.visible = true;
+      if (nodes.DRILL_TOP) nodes.DRILL_TOP.visible = true;
+    }
+
+    if (endEffector === "WELDING_TORCH") {
+      if (nodes.WELDING_TORCH) nodes.WELDING_TORCH.visible = true;
+    }
+
+    if (endEffector === "TWO_FINGER_GRIPPER") {
+      if (nodes.TWO_FINGER_GRIPPER) nodes.TWO_FINGER_GRIPPER.visible = true;
+      if (nodes.GRIPPERL) nodes.GRIPPERL.visible = true;
+      if (nodes.GRIPPERR) nodes.GRIPPERR.visible = true;
+    }
+
+    if (endEffector === "VACUUM_GRIPPER") {
+      if (nodes.VACUUM_GRIPPER) nodes.VACUUM_GRIPPER.visible = true;
+    }
+
+    if (endEffector === "SPRAY_GUN") {
+      if (nodes.SPRAY_GUN) nodes.SPRAY_GUN.visible = true;
+    }
+  }, [endEffector, nodes]);
+
+  return <primitive object={nodes.ROOT_BONE} {...props} />;
 };
 
 export default Manipulator;
