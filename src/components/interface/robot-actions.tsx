@@ -7,7 +7,6 @@ import {
   SPINDLE_ANIMATIONS,
 } from "@/types/robot-animation.types";
 import Button from "../ui/button";
-import { cn } from "@/utils/cn";
 import { setRobotAnimation } from "@/store/features/industrial-robot";
 import { useEffect } from "react";
 
@@ -17,11 +16,11 @@ const RobotActions = () => {
     (state) => state.industrialRobotSlice,
   );
   const animations = {
-    "WELDING_TORCH": WELDING_TORCH_ANIMATIONS,
-    "SPRAY_GUN": SPRAY_GUN_ANIMATIONS,
-    "TWO_FINGER_GRIPPER": MECHANICAL_GRIPPER_ANIMATIONS,
-    "VACUUM_GRIPPER": VACUUM_GRIPPER_ANIMATIONS,
-    "SPINDLE": SPINDLE_ANIMATIONS,
+    WELDING_TORCH: WELDING_TORCH_ANIMATIONS,
+    SPRAY_GUN: SPRAY_GUN_ANIMATIONS,
+    TWO_FINGER_GRIPPER: MECHANICAL_GRIPPER_ANIMATIONS,
+    VACUUM_GRIPPER: VACUUM_GRIPPER_ANIMATIONS,
+    SPINDLE: SPINDLE_ANIMATIONS,
   };
 
   useEffect(() => {
@@ -35,8 +34,7 @@ const RobotActions = () => {
         {animations[endEffector].map((animation) => (
           <Button
             key={animation}
-            variant="ghost"
-            className={cn(robotAnimation === animation ? "bg-white/20" : "")}
+            isActive={robotAnimation === animation}
             onClick={() => dispatch(setRobotAnimation(animation))}
           >
             {animation}
