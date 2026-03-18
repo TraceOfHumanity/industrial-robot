@@ -1,4 +1,4 @@
-import { ROBOT_COLORS, type RobotColor } from "@/types/robot-color";
+import { ROBOT_COLORS, type RobotColor as RobotColorType } from "@/types/robot-color";
 import Button from "../ui/button";
 import { setRobotColor } from "@/store/features/industrial-robot";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -12,7 +12,7 @@ const RobotColor = () => {
     <>
       <h3 className="text-lg font-medium">Robot Color</h3>
       <div className="grid grid-cols-5 gap-1">
-        {(Object.keys(ROBOT_COLORS) as RobotColor[]).map((color) => (
+        {(Object.keys(ROBOT_COLORS) as RobotColorType[]).map((color) => (
           <Button
             key={color}
             isActive={color === selectedRobotColor}
