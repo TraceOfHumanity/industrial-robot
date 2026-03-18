@@ -1,11 +1,12 @@
+import type { EndEffector } from "@/types/end-effector.types";
 import type {
     IndustrialRobot,
     IndustrialRobotAnimationName,
 } from "@/types/industrial-robot";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, type RefObject } from "react";
-import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial } from "three";
+import { useMemo, useRef, type RefObject } from "react";
+import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { SkeletonUtils, type GLTF } from "three-stdlib";
 
 interface GLTFAction extends AnimationClip {
@@ -71,16 +72,72 @@ const useIndustrialRobot = (): IndustrialRobot => {
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
     const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
     const { actions } = useAnimations(animations, groupRef);
+    const setEndEffectorVisibility = (endEffector: EndEffector) => {
+        const all = [
+            "DRILL",
+            "DRILL_TOP",
+            "WELDING_TORCH",
+            "TWO_FINGER_GRIPPER",
+            "GRIPPERL",
+            "GRIPPERR",
+            "VACUUM_GRIPPER",
+            "SPRAY_GUN",
+        ] as const;
 
-    useEffect(() => {
-        console.log("nodes", nodes);
-    }, [])
+        const nodesRecord = nodes as unknown as Record<string, Object3D>;
 
+        all.forEach((name) => {
+            const node = nodesRecord[name];
+            if (node) {
+                node.visible = false;
+            }
+        });
+
+        if (endEffector === "SPINDLE") {
+            if (nodesRecord.DRILL) {
+                nodesRecord.DRILL.visible = true;
+            }
+            if (nodesRecord.DRILL_TOP) {
+                nodesRecord.DRILL_TOP.visible = true;
+            }
+        }
+
+        if (endEffector === "WELDING_TORCH") {
+            if (nodesRecord.WELDING_TORCH) {
+                nodesRecord.WELDING_TORCH.visible = true;
+            }
+        }
+
+        if (endEffector === "TWO_FINGER_GRIPPER") {
+            if (nodesRecord.TWO_FINGER_GRIPPER) {
+                nodesRecord.TWO_FINGER_GRIPPER.visible = true;
+            }
+            if (nodesRecord.GRIPPERL) {
+                nodesRecord.GRIPPERL.visible = true;
+            }
+            if (nodesRecord.GRIPPERR) {
+                nodesRecord.GRIPPERR.visible = true;
+            }
+        }
+
+        if (endEffector === "VACUUM_GRIPPER") {
+            if (nodesRecord.VACUUM_GRIPPER) {
+                nodesRecord.VACUUM_GRIPPER.visible = true;
+            }
+        }
+
+        if (endEffector === "SPRAY_GUN") {
+            if (nodesRecord.SPRAY_GUN) {
+                nodesRecord.SPRAY_GUN.visible = true;
+            }
+        }
+    };
     return {
         nodes: nodes as unknown as Record<string, Mesh>,
         materials,
         actions: actions as Record<string, AnimationAction>,
         groupRef: groupRef as RefObject<Group>,
+        setEndEffectorVisibility,
     };
 };
 

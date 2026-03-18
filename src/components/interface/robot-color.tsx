@@ -1,6 +1,8 @@
 import { ROBOT_COLORS } from "@/types/robot-color.types";
 import Button from "../ui/button";
 import { cn } from "@/utils/cn";
+import { setRobotColor } from "@/store/features/industrial-robot";
+import { useAppDispatch } from "@/store/hooks";
 
 const RobotColor = () => {
   const colorMap = {
@@ -10,6 +12,7 @@ const RobotColor = () => {
     yellow: "bg-yellow-500",
     red: "bg-red-500",
   };
+  const dispatch = useAppDispatch();
   return (
     <>
       <h3 className="text-lg font-medium">Robot Color</h3>
@@ -19,6 +22,7 @@ const RobotColor = () => {
             key={color}
             variant="ghost"
             className={cn("rounded-md aspect-square", colorMap[color])}
+            onClick={() => dispatch(setRobotColor(color))}
           >
             {color}
           </Button>
