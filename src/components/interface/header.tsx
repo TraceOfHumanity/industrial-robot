@@ -6,7 +6,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector((state) => state.interfaceSlice.isOpen);
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex items-center justify-between">
+      {isOpen && <h3 className="text-lg font-medium">Industrial Robot</h3>}
       <button onClick={() => dispatch(setIsOpen(!isOpen))}>
         <Icon
           name={isOpen ? "close-sidebar" : "open-sidebar"}
