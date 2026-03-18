@@ -1,4 +1,7 @@
-import { ROBOT_COLORS, type RobotColor as RobotColorType } from "@/types/robot-color";
+import {
+  ROBOT_COLORS,
+  type RobotColor as RobotColorType,
+} from "@/types/robot-color";
 import Button from "../ui/button";
 import { setRobotColor } from "@/store/features/industrial-robot";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -9,19 +12,18 @@ const RobotColor = () => {
   );
   const dispatch = useAppDispatch();
   return (
-    <>
-      <h3 className="text-lg font-medium">Robot Color</h3>
+    <div className="flex flex-col gap-1 px-2">
+      <h3 className="text-lg font-medium">Color</h3>
       <div className="grid grid-cols-5 gap-1">
         {(Object.keys(ROBOT_COLORS) as RobotColorType[]).map((color) => (
           <Button
             key={color}
             isActive={color === selectedRobotColor}
             onClick={() => dispatch(setRobotColor(color))}
-            className="relative"
+            className="rounded-full p-1 aspect-square relative"
           >
-            {color}
             <div
-              className="absolute bottom-0 left-1/2 w-1/2 h-1 -translate-x-1/2"
+              className="absolute top-1/2 left-1/2 w-3/4 h-3/4 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
                 backgroundColor: `#${ROBOT_COLORS[color].toString(16)}`,
               }}
@@ -29,7 +31,7 @@ const RobotColor = () => {
           </Button>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
