@@ -1,10 +1,10 @@
 import { useAppSelector } from "@/store/hooks";
-import type { EndEffector } from "@/types/end-effector.types";
+import type { EndEffector } from "@/types/end-effector";
 import type {
     IndustrialRobot,
     IndustrialRobotAnimationName,
 } from "@/types/industrial-robot";
-import type { RobotColor } from "@/types/robot-color.types";
+import type { RobotColor } from "@/types/robot-color";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type RefObject } from "react";

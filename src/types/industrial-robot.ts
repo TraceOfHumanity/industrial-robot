@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 import { AnimationAction, Group, Mesh, MeshStandardMaterial } from "three";
-import type { EndEffector } from "./end-effector.types";
+import type { EndEffector } from "./end-effector";
+
 
 export type IndustrialRobotAnimationName =
     | "linear-seam"

@@ -1,8 +1,8 @@
-import type { IndustrialRobotAnimation } from "@/types/robot-animation.types";
-import { DEFAULT_ANIMATION_BY_END_EFFECTOR } from "@/types/robot-animation.types";
-import type { EndEffector } from "@/types/end-effector.types";
+import type { IndustrialRobotAnimation } from "@/types/robot-animation";
+import { DEFAULT_ANIMATION_BY_END_EFFECTOR } from "@/types/robot-animation";
+import type { EndEffector } from "@/types/end-effector";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { RobotColor } from "@/types/robot-color.types";
+import type { RobotColor } from "@/types/robot-color";
 
 type IndustrialRobotState = {
   endEffector: EndEffector;
