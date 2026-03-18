@@ -82,7 +82,7 @@ const useIndustrialRobot = (): IndustrialRobot => {
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
     const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
     const { actions } = useAnimations(animations, groupRef);
-    const { robotColor } = useAppSelector(
+    const { robotColor, robotAnimation } = useAppSelector(
         (state) => state.industrialRobotSlice,
     );
     const setEndEffectorVisibility = (endEffector: EndEffector) => {
@@ -152,6 +152,18 @@ const useIndustrialRobot = (): IndustrialRobot => {
             materials['robot-color'].color.setHex(hex);
         }
     }, [robotColor, materials]);
+
+    useEffect(() => {
+        Object.values(actions).forEach((action) => {
+            if (action) {
+                action.stop();
+            }
+        });
+        const next = actions[robotAnimation];
+        if (next) {
+            next.reset().play();
+        }
+    }, [robotAnimation, actions]);
 
     return {
         nodes: nodes as unknown as Record<string, Mesh>,
