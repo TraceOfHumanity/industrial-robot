@@ -1,22 +1,13 @@
 import { useEffect, type JSX } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
-import type { RobotColor } from "@/types/robot-color.types";
 import EndEffectors from "./industrial-robot-end-effectors";
 import Manipulator from "./industrial-robot-manipulator";
 import { useAppSelector } from "@/store/hooks";
 
-const ROBOT_COLOR_HEX: Record<RobotColor, number> = {
-  white: 0xffffff,
-  orange: 0xffa500,
-  blue: 0x4C8CE4,
-  yellow: 0xFFDE42,
-  red: 0xEB4C4C,
-};
-
 export function IndustrialRobot(props: JSX.IntrinsicElements["group"]) {
-  const { groupRef, nodes, actions, materials } = useIndustrialRobotContext();
-  const { robotAnimation, robotColor } = useAppSelector(
+  const { groupRef, nodes, actions } = useIndustrialRobotContext();
+  const { robotAnimation } = useAppSelector(
     (state) => state.industrialRobotSlice,
   );
   const isShowPalletAndBoxes = robotAnimation === "stack-items-on-pallet";
@@ -34,13 +25,6 @@ export function IndustrialRobot(props: JSX.IntrinsicElements["group"]) {
       next.reset().play();
     }
   }, [robotAnimation, actions]);
-
-  useEffect(() => {
-    const hex = ROBOT_COLOR_HEX[robotColor];
-    if (materials['robot-color']) {
-      materials['robot-color'].color.setHex(hex);
-    }
-  }, [robotColor, materials]);
 
   return (
     <group ref={groupRef} {...props} dispose={null}>

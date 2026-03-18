@@ -1,11 +1,13 @@
+import { useAppSelector } from "@/store/hooks";
 import type { EndEffector } from "@/types/end-effector.types";
 import type {
     IndustrialRobot,
     IndustrialRobotAnimationName,
 } from "@/types/industrial-robot";
+import type { RobotColor } from "@/types/robot-color.types";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
-import { useMemo, useRef, type RefObject } from "react";
+import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { SkeletonUtils, type GLTF } from "three-stdlib";
 
@@ -56,7 +58,7 @@ type GLTFResult = GLTF & {
     }
     materials: {
         metall: MeshStandardMaterial
-        white: MeshStandardMaterial
+        'robot-color': MeshStandardMaterial
         rubber: MeshStandardMaterial
         wood: MeshStandardMaterial
         incision: MeshStandardMaterial
@@ -66,12 +68,23 @@ type GLTFResult = GLTF & {
     animations: GLTFAction[]
 }
 
+const ROBOT_COLOR_HEX: Record<RobotColor, number> = {
+    white: 0xffffff,
+    orange: 0xffa500,
+    blue: 0x4C8CE4,
+    yellow: 0xFFDE42,
+    red: 0xEB4C4C,
+};
+
 const useIndustrialRobot = (): IndustrialRobot => {
     const groupRef = useRef<Group | null>(null);
     const { scene, animations } = useGLTF("/assets/industrial-robot.glb");
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
     const { nodes, materials } = useGraph(clone) as unknown as GLTFResult;
     const { actions } = useAnimations(animations, groupRef);
+    const { robotColor } = useAppSelector(
+        (state) => state.industrialRobotSlice,
+    );
     const setEndEffectorVisibility = (endEffector: EndEffector) => {
         const all = [
             "DRILL",
@@ -132,6 +145,14 @@ const useIndustrialRobot = (): IndustrialRobot => {
             }
         }
     };
+
+    useEffect(() => {
+        const hex = ROBOT_COLOR_HEX[robotColor];
+        if (materials['robot-color']) {
+            materials['robot-color'].color.setHex(hex);
+        }
+    }, [robotColor, materials]);
+
     return {
         nodes: nodes as unknown as Record<string, Mesh>,
         materials,
