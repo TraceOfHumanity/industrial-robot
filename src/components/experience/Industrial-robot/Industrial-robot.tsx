@@ -2,6 +2,8 @@ import { useGLTF } from "@react-three/drei";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import Manipulator from "./industrial-robot-manipulator";
 import { useAppSelector } from "@/store/hooks";
+import { useEffect, useMemo } from "react";
+import { DoubleSide, MeshPhysicalMaterial } from "three";
 
 export function IndustrialRobot() {
   const { groupRef, nodes } = useIndustrialRobotContext();
@@ -13,6 +15,30 @@ export function IndustrialRobot() {
   const isShowManhole = robotAnimation === "circular-path";
   const isShowSteelBeam =
     robotAnimation === "linear-seam" || robotAnimation === "spot-weld";
+
+  const glassMaterial = useMemo(
+    () =>
+      new MeshPhysicalMaterial({
+        color: "#ffffff",
+        transmission: 1,
+        thickness: 0.5,
+        roughness: 0.05,
+        ior: 1.45,
+        metalness: 0.5,
+        transparent: true,
+        opacity: 0.7,
+        depthWrite: false,
+        side: DoubleSide,
+      }),
+    [],
+  );
+  useEffect(() => {
+    if (nodes.GLASS_1) nodes.GLASS_1.material = glassMaterial;
+    if (nodes.GLASS_2) nodes.GLASS_2.material = glassMaterial;
+    return () => {
+      glassMaterial.dispose();
+    };
+  }, [nodes, glassMaterial]);
 
   return (
     <group ref={groupRef} dispose={null}>
