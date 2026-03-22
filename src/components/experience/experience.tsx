@@ -1,7 +1,7 @@
-import { Environment, OrbitControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IndustrialRobot } from "./components/Industrial-robot/Industrial-robot";
-import IndustrialRobotProvider from "./components/Industrial-robot/industrial-robot-provider";
+import IndustrialRobotProvider from "./components/Industrial-robot/components/provider";
 import Light from "./components/light";
 
 const Experience = () => {
@@ -14,7 +14,6 @@ const Experience = () => {
       camera={{ position: [5, 2, 5], fov: 50 }}
     >
       <Light />
-      <Environment preset="city" environmentIntensity={0.5} />
       <IndustrialRobotProvider>
         <IndustrialRobot />
       </IndustrialRobotProvider>

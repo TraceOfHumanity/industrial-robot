@@ -1,9 +1,9 @@
 import { Instance, Instances } from "@react-three/drei";
 import { createPortal, useFrame } from "@react-three/fiber";
-import { useIndustrialRobotContext } from "@/context/industrial-robot";
+import { useIndustrialRobotContext } from "@/components/experience/components/Industrial-robot/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
-import type { WeldAnimation } from "@/types/robot-animation";
-import { WELDING_TORCH_ANIMATIONS } from "@/types/robot-animation";
+import type { WeldAnimation } from "@/components/experience/components/Industrial-robot/types/robot-animation";
+import { WELDING_TORCH_ANIMATIONS } from "@/components/experience/components/Industrial-robot/types/robot-animation";
 import { useLayoutEffect, useMemo, useRef } from "react";
 import type { AnimationAction } from "three";
 import { AdditiveBlending, Color, type Group, LoopOnce } from "three";

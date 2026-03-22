@@ -5,7 +5,7 @@ import {
   MECHANICAL_GRIPPER_ANIMATIONS,
   VACUUM_GRIPPER_ANIMATIONS,
   SPINDLE_ANIMATIONS,
-} from "@/types/robot-animation";
+} from "@/components/experience/components/Industrial-robot/types/robot-animation";
 import Button from "../ui/button";
 import { setRobotAnimation } from "@/store/features/industrial-robot";
 import { useEffect } from "react";

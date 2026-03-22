@@ -1,8 +1,8 @@
 import { useGLTF } from "@react-three/drei";
-import { useIndustrialRobotContext } from "@/context/industrial-robot";
-import Manipulator from "./industrial-robot-manipulator";
-import { SprayGunPaintVolume } from "./spray-gun-paint-volume";
-import { WeldingTorchSparks } from "./welding-torch-sparks";
+import { useIndustrialRobotContext } from "@/components/experience/components/Industrial-robot/context/industrial-robot";
+import Manipulator from "./components/manipulator";
+import { SprayGunPaintVolume } from "./components/spray-gun-paint-volume";
+import { WeldingTorchSparks } from "./components/welding-torch-sparks";
 import { useAppSelector } from "@/store/hooks";
 import { useEffect, useMemo } from "react";
 import { DoubleSide, MeshPhysicalMaterial } from "three";

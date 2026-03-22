@@ -1,9 +1,9 @@
 import { Instance, Instances } from "@react-three/drei";
 import { createPortal, useFrame } from "@react-three/fiber";
-import { useIndustrialRobotContext } from "@/context/industrial-robot";
+import { useIndustrialRobotContext } from "@/components/experience/components/Industrial-robot/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
-import { ROBOT_COLORS } from "@/types/robot-color";
-import { SPRAY_GUN_ANIMATIONS } from "@/types/robot-animation";
+import { ROBOT_COLORS } from "@/components/experience/components/Industrial-robot/types/robot-color";
+import { SPRAY_GUN_ANIMATIONS } from "@/components/experience/components/Industrial-robot/types/robot-animation";
 import { useMemo, useRef } from "react";
 import { AdditiveBlending, Color, type Group } from "three";
 import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";

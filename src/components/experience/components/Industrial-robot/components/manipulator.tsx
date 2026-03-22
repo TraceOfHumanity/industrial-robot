@@ -1,4 +1,4 @@
-import { useIndustrialRobotContext } from "@/context/industrial-robot";
+import { useIndustrialRobotContext } from "@/components/experience/components/Industrial-robot/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
 import type { JSX } from "react";
 import { useLayoutEffect } from "react";

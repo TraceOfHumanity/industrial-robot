@@ -1,4 +1,13 @@
 
+export type IndustrialRobotAnimationName =
+    | "linear-seam"
+    | "circular-path"
+    | "spot-weld"
+    | "spiral-coverage"
+    | "stack-items-on-pallet"
+    | "move-glass-panel"
+    | "drill-plunge";
+
 export const WELDING_TORCH_ANIMATIONS = [
     "linear-seam",      // Пряма лінія
     "circular-path",    // Коло

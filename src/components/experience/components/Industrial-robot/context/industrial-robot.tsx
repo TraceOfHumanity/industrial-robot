@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { IndustrialRobot } from "@/types/industrial-robot";
+import type { IndustrialRobot } from "@/components/experience/components/Industrial-robot/types/industrial-robot";
 
 export const IndustrialRobotContext = createContext<IndustrialRobot | null>(
   null,

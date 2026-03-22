@@ -1,7 +1,7 @@
 import {
   ROBOT_COLORS,
   type RobotColor as RobotColorType,
-} from "@/types/robot-color";
+} from "@/components/experience/components/Industrial-robot/types/robot-color";
 import Button from "../ui/button";
 import { setRobotColor } from "@/store/features/industrial-robot";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

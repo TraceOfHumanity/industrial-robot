@@ -1,6 +1,6 @@
 import Button from "../ui/button";
 import Icon from "../ui/icon/icon";
-import { END_EFFECTORS } from "@/types/end-effector";
+import { END_EFFECTORS } from "@/components/experience/components/Industrial-robot/types/end-effector";
 import { setEndEffector } from "@/store/features/industrial-robot";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
