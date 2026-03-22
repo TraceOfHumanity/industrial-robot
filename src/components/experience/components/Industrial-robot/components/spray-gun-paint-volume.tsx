@@ -54,7 +54,7 @@ function PaintInstances({ mist, edge }: { mist: Color; edge: Color }) {
         wobble: randFloat(2.5, 5.5),
         phase: randFloat(0, Math.PI * 2),
         lifetime: randFloat(0.1, 0.5),
-        size: randFloat(0.004, 0.004),
+        size: randFloat(0.0040, 0.0040),
       })),
     [],
   );

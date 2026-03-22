@@ -4,8 +4,6 @@ import Manipulator from "./components/manipulator";
 import { SprayGunPaintVolume } from "./components/spray-gun-paint-volume";
 import { WeldingTorchSparks } from "./components/welding-torch-sparks";
 import { useAppSelector } from "@/store/hooks";
-import { useEffect, useMemo } from "react";
-import { DoubleSide, MeshPhysicalMaterial } from "three";
 
 export function IndustrialRobot() {
   const { groupRef, nodes } = useIndustrialRobotContext();
@@ -13,34 +11,9 @@ export function IndustrialRobot() {
     (state) => state.industrialRobotSlice,
   );
   const isShowPalletAndBoxes = robotAnimation === "stack-items-on-pallet";
-  const isShowGlass = robotAnimation === "move-glass-panel";
   const isShowManhole = robotAnimation === "circular-path";
   const isShowSteelBeam =
     robotAnimation === "linear-seam" || robotAnimation === "spot-weld";
-
-  const glassMaterial = useMemo(
-    () =>
-      new MeshPhysicalMaterial({
-        color: "#ffffff",
-        transmission: 1,
-        thickness: 0.5,
-        roughness: 0.05,
-        ior: 1.45,
-        metalness: 0.5,
-        transparent: true,
-        opacity: 0.7,
-        depthWrite: false,
-        side: DoubleSide,
-      }),
-    [],
-  );
-  useEffect(() => {
-    if (nodes.GLASS_1) nodes.GLASS_1.material = glassMaterial;
-    if (nodes.GLASS_2) nodes.GLASS_2.material = glassMaterial;
-    return () => {
-      glassMaterial.dispose();
-    };
-  }, [nodes, glassMaterial]);
 
   return (
     <group ref={groupRef} dispose={null}>
@@ -65,8 +38,6 @@ export function IndustrialRobot() {
       {isShowSteelBeam && nodes.STEEL_BEAM && (
         <primitive object={nodes.STEEL_BEAM} />
       )}
-      {isShowGlass && nodes.GLASS_1 && <primitive object={nodes.GLASS_1} />}
-      {isShowGlass && nodes.GLASS_2 && <primitive object={nodes.GLASS_2} />}
       {isShowManhole && nodes.MANHOLE && <primitive object={nodes.MANHOLE} />}
     </group>
   );
