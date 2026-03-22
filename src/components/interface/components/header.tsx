@@ -17,7 +17,7 @@ const Header = () => {
       {isOpen && (
         <div className="flex items-center gap-1">
           <Icon name="industrial-robot" className="size-8" />
-          <h3 className="text-lg font-medium">Industrial Robot</h3>
+          <h3 className="font-medium">Industrial Robot</h3>
         </div>
       )}
       <button onClick={() => dispatch(setIsOpen(!isOpen))}>

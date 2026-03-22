@@ -13,7 +13,7 @@ const RobotColor = () => {
   const dispatch = useAppDispatch();
   return (
     <div className="flex flex-col gap-1 px-2">
-      <h3 className="text-lg font-medium">Color</h3>
+      <h3 className="font-medium">Color</h3>
       <div className="grid grid-cols-5 gap-1">
         {(Object.keys(ROBOT_COLORS) as RobotColorType[]).map((color) => (
           <Button

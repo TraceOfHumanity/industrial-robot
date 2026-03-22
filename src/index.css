@@ -9,6 +9,7 @@ html,
 #root {
   width: 100vw;
   height: 100vh;
+  font-size: clamp(14px, 1.3vw, 24px);
 }
 
 * {
@@ -22,4 +23,8 @@ body {
 
 button {
   cursor: pointer;
+}
+
+h3 {
+  font-size: clamp(18px, 1.4vw, 28px);
 }

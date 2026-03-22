@@ -29,7 +29,7 @@ const RobotActions = () => {
 
   return (
     <div className="grow flex flex-col overflow-hidden px-2">
-      <h3 className="text-lg font-medium">Actions</h3>
+      <h3 className="font-medium">Actions</h3>
       <div className="flex flex-col gap-1 grow overflow-y-auto">
         {animations[endEffector].map((animation) => (
           <Button
