@@ -9,8 +9,6 @@ import type { AnimationAction } from "three";
 import { AdditiveBlending, Color, type Group, LoopOnce } from "three";
 import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";
 
-type BooleanRef = { current: boolean };
-
 const weldAnimationSet = new Set<string>(WELDING_TORCH_ANIMATIONS);
 
 const FPS = 30;
@@ -46,10 +44,7 @@ const WELD_SPARK_RANGES: Record<
   },
 };
 
-function weldingTimeToFrame(
-  action: AnimationAction,
-  maxFrame: number,
-): number {
+function weldingTimeToFrame(action: AnimationAction, maxFrame: number): number {
   const clip = action.getClip();
   const duration = clip.duration;
   let t = action.time;
@@ -95,8 +90,7 @@ export function WeldingTorchSparks() {
     (state) => state.industrialRobotSlice,
   );
   const baseActive =
-    endEffector === "WELDING_TORCH" &&
-    weldAnimationSet.has(robotAnimation);
+    endEffector === "WELDING_TORCH" && weldAnimationSet.has(robotAnimation);
   const torch = nodes.WELDING_TORCH;
   const groupRef = useRef<Group>(null);
   const sparksActiveRef = useRef(false);
@@ -132,7 +126,7 @@ export function WeldingTorchSparks() {
 function SparkInstances({
   sparksActiveRef,
 }: {
-  sparksActiveRef: BooleanRef;
+  sparksActiveRef: { current: boolean };
 }) {
   const particles = useMemo(
     () =>
@@ -159,11 +153,7 @@ function SparkInstances({
         toneMapped={false}
       />
       {particles.map((props, i) => (
-        <SparkParticle
-          key={i}
-          {...props}
-          sparksActiveRef={sparksActiveRef}
-        />
+        <SparkParticle key={i} {...props} sparksActiveRef={sparksActiveRef} />
       ))}
     </Instances>
   );
@@ -174,7 +164,7 @@ type SparkParticleProps = {
   speed: number;
   lifetime: number;
   size: number;
-  sparksActiveRef: BooleanRef;
+  sparksActiveRef: { current: boolean };
 };
 
 function SparkParticle({

@@ -59,7 +59,7 @@ function PaintInstances({
           randFloatSpread(0.01),
           randFloatSpread(0.01),
         ] as [number, number, number],
-        speed: randFloat(1, 1.1),
+        speed: randFloat(2, 2.1),
         wobble: randFloat(2.5, 5.5),
         phase: randFloat(0, Math.PI * 2),
         lifetime: randFloat(0.35, 0.85),
