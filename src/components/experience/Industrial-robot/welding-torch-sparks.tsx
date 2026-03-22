@@ -2,12 +2,77 @@ import { Instance, Instances } from "@react-three/drei";
 import { createPortal, useFrame } from "@react-three/fiber";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
+import type { WeldAnimation } from "@/types/robot-animation";
 import { WELDING_TORCH_ANIMATIONS } from "@/types/robot-animation";
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { AdditiveBlending, Color, type Group } from "three";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  type MutableRefObject,
+} from "react";
+import type { AnimationAction } from "three";
+import { AdditiveBlending, Color, type Group, LoopOnce } from "three";
 import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";
 
 const weldAnimationSet = new Set<string>(WELDING_TORCH_ANIMATIONS);
+
+const FPS = 30;
+
+const WELD_FRAME_TOTAL: Record<WeldAnimation, number> = {
+  "linear-seam": 470,
+  "circular-path": 300,
+  "spot-weld": 562,
+};
+
+const WELD_SPARK_RANGES: Record<
+  WeldAnimation,
+  { kind: "all" } | { kind: "ranges"; ranges: readonly [number, number][] }
+> = {
+  "linear-seam": {
+    kind: "ranges",
+    ranges: [[130, 350]],
+  },
+  "circular-path": { kind: "all" },
+  "spot-weld": {
+    kind: "ranges",
+    ranges: [
+      [80, 90],
+      [125, 135],
+      [175, 185],
+      [225, 235],
+      [275, 285],
+      [325, 335],
+      [375, 385],
+      [425, 435],
+      [475, 485],
+    ],
+  },
+};
+
+function weldingTimeToFrame(
+  action: AnimationAction,
+  maxFrame: number,
+): number {
+  const clip = action.getClip();
+  const duration = clip.duration;
+  let t = action.time;
+  if (action.loop === LoopOnce) {
+    t = Math.min(Math.max(t, 0), duration);
+  } else {
+    t = ((t % duration) + duration) % duration;
+  }
+  const f = Math.floor(t * FPS) + 1;
+  return Math.min(Math.max(f, 1), maxFrame);
+}
+
+function isWeldingSparkFrame(anim: WeldAnimation, frame: number): boolean {
+  const spec = WELD_SPARK_RANGES[anim];
+  const max = WELD_FRAME_TOTAL[anim];
+  if (spec.kind === "all") {
+    return frame >= 1 && frame <= max;
+  }
+  return spec.ranges.some(([a, b]) => frame >= a && frame <= b);
+}
 
 const NB = 220;
 
@@ -28,28 +93,50 @@ function randomUnitVelocity(speed: number): [number, number, number] {
 }
 
 export function WeldingTorchSparks() {
-  const { nodes } = useIndustrialRobotContext();
+  const { nodes, actions } = useIndustrialRobotContext();
   const { endEffector, robotAnimation } = useAppSelector(
     (state) => state.industrialRobotSlice,
   );
-  const active =
+  const baseActive =
     endEffector === "WELDING_TORCH" &&
     weldAnimationSet.has(robotAnimation);
   const torch = nodes.WELDING_TORCH;
+  const groupRef = useRef<Group>(null);
+  const sparksActiveRef = useRef(false);
 
-  if (!active || !torch) {
+  useFrame(() => {
+    let sparksOn = false;
+    if (baseActive) {
+      const action = actions[robotAnimation];
+      const anim = robotAnimation as WeldAnimation;
+      if (action?.isRunning()) {
+        const frame = weldingTimeToFrame(action, WELD_FRAME_TOTAL[anim]);
+        sparksOn = isWeldingSparkFrame(anim, frame);
+      }
+    }
+    sparksActiveRef.current = sparksOn;
+    if (groupRef.current) {
+      groupRef.current.visible = sparksOn;
+    }
+  }, -20);
+
+  if (!baseActive || !torch) {
     return null;
   }
 
   return createPortal(
-    <group position={[-0.05, -0.2, 0]}>
-      <SparkInstances />
+    <group ref={groupRef} visible={false} position={[-0.05, -0.2, 0]}>
+      <SparkInstances sparksActiveRef={sparksActiveRef} />
     </group>,
     torch,
   );
 }
 
-function SparkInstances() {
+function SparkInstances({
+  sparksActiveRef,
+}: {
+  sparksActiveRef: MutableRefObject<boolean>;
+}) {
   const particles = useMemo(
     () =>
       Array.from({ length: NB }, () => ({
@@ -75,7 +162,11 @@ function SparkInstances() {
         toneMapped={false}
       />
       {particles.map((props, i) => (
-        <SparkParticle key={i} {...props} />
+        <SparkParticle
+          key={i}
+          {...props}
+          sparksActiveRef={sparksActiveRef}
+        />
       ))}
     </Instances>
   );
@@ -86,9 +177,16 @@ type SparkParticleProps = {
   speed: number;
   lifetime: number;
   size: number;
+  sparksActiveRef: MutableRefObject<boolean>;
 };
 
-function SparkParticle({ spawn, speed, lifetime, size }: SparkParticleProps) {
+function SparkParticle({
+  spawn,
+  speed,
+  lifetime,
+  size,
+  sparksActiveRef,
+}: SparkParticleProps) {
   const ref = useRef<InstanceHandle | null>(null);
   const age = useRef(0);
   const vel = useRef<[number, number, number]>([0, 0, 0]);
@@ -98,6 +196,9 @@ function SparkParticle({ spawn, speed, lifetime, size }: SparkParticleProps) {
   }, [speed]);
 
   useFrame(({ camera }, delta) => {
+    if (!sparksActiveRef.current) {
+      return;
+    }
     const obj = ref.current;
     if (!obj) {
       return;
