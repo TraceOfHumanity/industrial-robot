@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import Icon from "../ui/icon/icon";
+import Icon from "@/components/ui/icon/icon";
 import { setIsOpen } from "@/store/features/interface";
 import { cn } from "@/utils/cn";
 

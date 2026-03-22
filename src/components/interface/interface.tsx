@@ -1,8 +1,8 @@
-import InterfaceWrapper from "@/components/interface/interface-wrapper";
-import Header from "./header";
-import RobotActions from "./robot-actions";
-import EndEffectors from "./end-effectors";
-import RobotColor from "./robot-color";
+import InterfaceWrapper from "@/components/interface/components/wrapper";
+import Header from "@/components/interface/components/header";
+import RobotActions from "@/components/interface/components/robot-actions";
+import EndEffectors from "@/components/interface/components/end-effectors";
+import RobotColor from "@/components/interface/components/robot-color";
 import { useAppSelector } from "@/store/hooks";
 
 const Interface = () => {

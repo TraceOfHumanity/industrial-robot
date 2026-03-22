@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/store/hooks";
 import type { EndEffector } from "@/components/experience/components/Industrial-robot/types/end-effector";
-import type { IndustrialRobot } from "@/components/experience/components/Industrial-robot/types/industrial-robot";
+import type { IndustrialRobot } from "@/components/experience/components/Industrial-robot/types/use-industrial-robot";
 import type { RobotColor } from "@/components/experience/components/Industrial-robot/types/robot-color";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
