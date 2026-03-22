@@ -5,7 +5,7 @@ import { useAppSelector } from "@/store/hooks";
 import { ROBOT_COLORS } from "@/components/experience/components/Industrial-robot/types/robot-color";
 import { SPRAY_GUN_ANIMATIONS } from "@/components/experience/components/Industrial-robot/types/robot-animation";
 import { useMemo, useRef } from "react";
-import { AdditiveBlending, Color, type Group } from "three";
+import { Color, type Group } from "three";
 import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";
 
 const sprayAnimationSet = new Set<string>(SPRAY_GUN_ANIMATIONS);
@@ -54,20 +54,15 @@ function PaintInstances({ mist, edge }: { mist: Color; edge: Color }) {
         wobble: randFloat(2.5, 5.5),
         phase: randFloat(0, Math.PI * 2),
         lifetime: randFloat(0.1, 0.5),
-        size: randFloat(0.0040, 0.0040),
+        size: randFloat(0.004, 0.006),
       })),
     [],
   );
 
   return (
-    <Instances range={NB} limit={NB} frustumCulled={false}>
+    <Instances range={NB} limit={NB}>
       <planeGeometry args={[1, 1]} />
-      <meshBasicMaterial
-        transparent
-        depthWrite={false}
-        blending={AdditiveBlending}
-        toneMapped={false}
-      />
+      <meshBasicMaterial transparent depthWrite={false} toneMapped={false} />
       {particles.map((props, i) => (
         <PaintParticle key={i} {...props} mist={mist} edge={edge} />
       ))}
