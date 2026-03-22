@@ -1,6 +1,7 @@
 import { useGLTF } from "@react-three/drei";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import Manipulator from "./industrial-robot-manipulator";
+import { SprayGunPaintVolume } from "./spray-gun-paint-volume";
 import { useAppSelector } from "@/store/hooks";
 import { useEffect, useMemo } from "react";
 import { DoubleSide, MeshPhysicalMaterial } from "three";
@@ -43,6 +44,7 @@ export function IndustrialRobot() {
   return (
     <group ref={groupRef} dispose={null}>
       <Manipulator />
+      <SprayGunPaintVolume />
       {isShowPalletAndBoxes && nodes.PALLET && (
         <primitive object={nodes.PALLET} />
       )}
