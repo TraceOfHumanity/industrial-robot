@@ -4,15 +4,12 @@ import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
 import type { WeldAnimation } from "@/types/robot-animation";
 import { WELDING_TORCH_ANIMATIONS } from "@/types/robot-animation";
-import {
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  type MutableRefObject,
-} from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import type { AnimationAction } from "three";
 import { AdditiveBlending, Color, type Group, LoopOnce } from "three";
 import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";
+
+type BooleanRef = { current: boolean };
 
 const weldAnimationSet = new Set<string>(WELDING_TORCH_ANIMATIONS);
 
@@ -135,7 +132,7 @@ export function WeldingTorchSparks() {
 function SparkInstances({
   sparksActiveRef,
 }: {
-  sparksActiveRef: MutableRefObject<boolean>;
+  sparksActiveRef: BooleanRef;
 }) {
   const particles = useMemo(
     () =>
@@ -177,7 +174,7 @@ type SparkParticleProps = {
   speed: number;
   lifetime: number;
   size: number;
-  sparksActiveRef: MutableRefObject<boolean>;
+  sparksActiveRef: BooleanRef;
 };
 
 function SparkParticle({

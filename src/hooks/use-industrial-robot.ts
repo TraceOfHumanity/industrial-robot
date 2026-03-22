@@ -7,7 +7,7 @@ import type {
 import type { RobotColor } from "@/types/robot-color";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useGraph } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, type RefObject } from "react";
 import { AnimationAction, AnimationClip, Bone, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { SkeletonUtils, type GLTF } from "three-stdlib";
 
@@ -153,7 +153,7 @@ const useIndustrialRobot = (): IndustrialRobot => {
         }
     }, [robotColor, materials]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         Object.values(actions).forEach((action) => {
             if (action) {
                 action.stop();
