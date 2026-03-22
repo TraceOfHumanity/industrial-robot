@@ -4,6 +4,7 @@ import Manipulator from "./components/manipulator";
 import { SprayGunPaintVolume } from "./components/spray-gun-paint-volume";
 import { WeldingTorchSparks } from "./components/welding-torch-sparks";
 import { useAppSelector } from "@/store/hooks";
+import GlassPanels from "./components/glass-panels";
 
 export function IndustrialRobot() {
   const { groupRef, nodes } = useIndustrialRobotContext();
@@ -20,6 +21,7 @@ export function IndustrialRobot() {
       <Manipulator />
       <SprayGunPaintVolume />
       <WeldingTorchSparks />
+      <GlassPanels />
       {isShowPalletAndBoxes && nodes.PALLET && (
         <primitive object={nodes.PALLET} />
       )}
