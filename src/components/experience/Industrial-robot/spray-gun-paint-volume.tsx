@@ -2,6 +2,7 @@ import { Instance, Instances } from "@react-three/drei";
 import { createPortal, useFrame } from "@react-three/fiber";
 import { useIndustrialRobotContext } from "@/context/industrial-robot";
 import { useAppSelector } from "@/store/hooks";
+import { ROBOT_COLORS } from "@/types/robot-color";
 import { SPRAY_GUN_ANIMATIONS } from "@/types/robot-animation";
 import { useMemo, useRef } from "react";
 import { AdditiveBlending, Color, type Group } from "three";
@@ -9,18 +10,24 @@ import { lerp, randFloat, randFloatSpread } from "three/src/math/MathUtils.js";
 
 const sprayAnimationSet = new Set<string>(SPRAY_GUN_ANIMATIONS);
 
-const colorMist = new Color("#3d7fc8").multiplyScalar(4);
-const colorEdge = new Color("#b8daf7").multiplyScalar(3);
-
-const NB = 100;
+const NB = 200;
 
 type InstanceHandle = Group & { color: Color };
 
 export function SprayGunPaintVolume() {
   const { nodes } = useIndustrialRobotContext();
-  const { endEffector, robotAnimation } = useAppSelector(
+  const { endEffector, robotAnimation, robotColor } = useAppSelector(
     (state) => state.industrialRobotSlice,
   );
+  const paintColors = useMemo(() => {
+    const base = new Color(ROBOT_COLORS[robotColor]);
+    const mist = base.clone().multiplyScalar(4);
+    const edge = base
+      .clone()
+      .lerp(new Color(0xffffff), 0.45)
+      .multiplyScalar(1);
+    return { mist, edge };
+  }, [robotColor]);
   const active =
     endEffector === "SPRAY_GUN" && sprayAnimationSet.has(robotAnimation);
   const gun = nodes.SPRAY_GUN;
@@ -31,13 +38,19 @@ export function SprayGunPaintVolume() {
 
   return createPortal(
     <group position={[0.1, -0.01, -0.02]}>
-      <PaintInstances />
+      <PaintInstances mist={paintColors.mist} edge={paintColors.edge} />
     </group>,
     gun,
   );
 }
 
-function PaintInstances() {
+function PaintInstances({
+  mist,
+  edge,
+}: {
+  mist: Color;
+  edge: Color;
+}) {
   const particles = useMemo(
     () =>
       Array.from({ length: NB }, () => ({
@@ -50,7 +63,7 @@ function PaintInstances() {
         wobble: randFloat(2.5, 5.5),
         phase: randFloat(0, Math.PI * 2),
         lifetime: randFloat(0.35, 0.85),
-        size: randFloat(0.01, 0.01),
+        size: randFloat(0.005, 0.005),
       })),
     [],
   );
@@ -65,7 +78,7 @@ function PaintInstances() {
         toneMapped={false}
       />
       {particles.map((props, i) => (
-        <PaintParticle key={i} {...props} />
+        <PaintParticle key={i} {...props} mist={mist} edge={edge} />
       ))}
     </Instances>
   );
@@ -78,6 +91,8 @@ type PaintParticleProps = {
   phase: number;
   lifetime: number;
   size: number;
+  mist: Color;
+  edge: Color;
 };
 
 function PaintParticle({
@@ -87,6 +102,8 @@ function PaintParticle({
   phase,
   lifetime,
   size,
+  mist,
+  edge,
 }: PaintParticleProps) {
   const ref = useRef<InstanceHandle | null>(null);
   const age = useRef(0);
@@ -105,9 +122,9 @@ function PaintParticle({
           ? lerp(size, 0, (t - 0.72) / 0.28)
           : size;
     obj.scale.x = obj.scale.y = obj.scale.z = s;
-    obj.color.r = lerp(colorMist.r, colorEdge.r, t);
-    obj.color.g = lerp(colorMist.g, colorEdge.g, t);
-    obj.color.b = lerp(colorMist.b, colorEdge.b, t);
+    obj.color.r = lerp(mist.r, edge.r, t);
+    obj.color.g = lerp(mist.g, edge.g, t);
+    obj.color.b = lerp(mist.b, edge.b, t);
     obj.position.x += speed * delta;
     obj.position.y += Math.sin(age.current * wobble + phase) * 0.22 * delta;
     obj.position.z +=
