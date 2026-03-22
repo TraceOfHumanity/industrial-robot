@@ -22,10 +22,7 @@ export function SprayGunPaintVolume() {
   const paintColors = useMemo(() => {
     const base = new Color(ROBOT_COLORS[robotColor]);
     const mist = base.clone().multiplyScalar(4);
-    const edge = base
-      .clone()
-      .lerp(new Color(0xffffff), 0.45)
-      .multiplyScalar(1);
+    const edge = base.clone().lerp(new Color(0xffffff), 0.45).multiplyScalar(1);
     return { mist, edge };
   }, [robotColor]);
   const active =
@@ -44,13 +41,7 @@ export function SprayGunPaintVolume() {
   );
 }
 
-function PaintInstances({
-  mist,
-  edge,
-}: {
-  mist: Color;
-  edge: Color;
-}) {
+function PaintInstances({ mist, edge }: { mist: Color; edge: Color }) {
   const particles = useMemo(
     () =>
       Array.from({ length: NB }, () => ({
@@ -62,8 +53,8 @@ function PaintInstances({
         speed: randFloat(2, 2.1),
         wobble: randFloat(2.5, 5.5),
         phase: randFloat(0, Math.PI * 2),
-        lifetime: randFloat(0.35, 0.85),
-        size: randFloat(0.005, 0.005),
+        lifetime: randFloat(0.1, 0.5),
+        size: randFloat(0.004, 0.004),
       })),
     [],
   );
