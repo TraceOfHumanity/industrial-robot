@@ -5,7 +5,10 @@ type InterfaceState = {
 };
 
 const initialState: InterfaceState = {
-    isOpen: true,
+    isOpen:
+        typeof window !== "undefined" && typeof window.matchMedia === "function"
+            ? !window.matchMedia("(pointer: coarse)").matches
+            : true,
 };
 
 const interfaceSlice = createSlice({
